@@ -11,7 +11,7 @@ spriteset(things_sprite, "gfx/A million things.png"){
 }
 
 spriteset(verity_sprite, "gfx/Verity.png"){
-    [0,0,16,16,-8,-8]
+    [0,0,16,16,0,0]
 }
 spriteset(verity_factory_sprite, "gfx/Verity Factory.png"){
     [0,0,64,64,-32,-32]
@@ -76,6 +76,7 @@ item(FEAT_CARGOS, Things, 20){
         items_of_cargo: string(STR_CARGO_THING_ITEM);
         type_abbreviation: string(STR_CARGO_THING_ABBR);
         sprite: NEW_CARGO_SPRITE;
+        cargo_payment_list_colour: 48;
         weight: 15;
         price_factor: 100;
         is_freight: 1;
@@ -100,6 +101,7 @@ item(FEAT_CARGOS, Verity, 21){
         items_of_cargo: string(STR_CARGO_VERITY_ITEM);
         type_abbreviation: string(STR_CARGO_VERITY_ABBR);
         sprite: NEW_CARGO_SPRITE;
+        cargo_payment_list_colour: 67;
         weight: 15;
         price_factor: 1000000;
         is_freight: 1;
