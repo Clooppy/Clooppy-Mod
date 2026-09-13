@@ -19,10 +19,18 @@ spriteset(veritymobile_sprite, "gfx/Verity.png"){
 spriteset(verity_factory_sprite, "gfx/Verity Factory.png"){
     [0,0,64,64,-32,-32]
 }
+spriteset(skunx_house_sprite, "gfx/Piggybank.png"){
+    [0,0,32,32,-16,-16]
+}
 
 spritelayout verity_industry_tile_sprite_layout{
     ground { sprite: GROUNDSPRITE_NORMAL; }
     building{ sprite: verity_factory_sprite(0);}
+}
+
+spritelayout skunx_house_tile_sprite_layout{
+    ground { sprite: GROUNDSPRITE_NORMAL; }
+    building{ sprite: skunx_house_sprite(0);}
 }
 
 item(FEAT_INDUSTRYTILES, verity_fact_tile, 0){
@@ -35,13 +43,26 @@ item(FEAT_INDUSTRYTILES, verity_fact_tile, 0){
     }
 }
 
+item(FEAT_INDUSTRYTILES, skunx_house_tile, 3){
+        property {
+        substitute: 0x01;
+        special_flags: bitmask(INDTILE_FLAG_ACCEPT_ALL);
+    }
+    graphics {
+        default: skunx_house_tile_sprite_layout;
+    }
+}
+
 tilelayout verity_fact_tile_layout{
     0, 0: verity_fact_tile;
 }
 
+tilelayout skunx_house_tile_layout{
+    0, 0: skunx_house_tile;
+}
 
 cargotable{
-    THIN, VERT, PASS
+    THIN, VERT, PASS, MAIL
 }
 
 item(FEAT_ROADVEHS, Veritymobile, 100) {
@@ -110,6 +131,7 @@ item(FEAT_CARGOS, Verity, 21){
         is_freight: 1;
         cargo_label:"VERT";
         capacity_multiplier: 1;
+        penalty_lowerbound: 255;
     }
     graphics{
         default:verity_sprite;
@@ -123,7 +145,7 @@ item(FEAT_INDUSTRIES, Verity_facrory){
         layouts: [verity_fact_tile_layout];
         life_type: IND_LIFE_TYPE_PROCESSING;
         cargo_types:[
-            accept_cargo("THIN", produce_cargo("VERT", 1)),
+            accept_cargo("THIN", produce_cargo("VERT", 8)),
             ];
         min_cargo_distr:0;
         prob_random: 2;
@@ -136,10 +158,17 @@ item(FEAT_INDUSTRIES, Verity_facrory){
     }
 }
 
-item(FEAT_HOUSES, houses) {
+item(FEAT_INDUSTRIES, Skunx_House) {
     property {
-        substitute:       26;
-        override:         26;
-        accepted_cargos:  [[VERT, 1],[PASS, 1]]; 
+        substitute: INDUSTRYTYPE_TEMPERATE_BANK;
+        name: string(STR_SKUNX_HOUSE_NAME);
+        layouts: [skunx_house_tile_layout];
+        prob_random: 20;
+        prob_map_gen: 10;
+        prob_in_game: 40;
+        cargo_types:[
+            accept_cargo("VERT"),
+            ];
+        spec_flags: bitmask(IND_FLAG_ONLY_IN_TOWNS);
     }
 }
