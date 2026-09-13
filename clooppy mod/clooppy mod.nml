@@ -1,0 +1,141 @@
+grf {
+    grfid: "XX01";
+    name: string(STR_GRF_NAME);
+    desc: string(STR_GRF_DESCRIPTION);
+    version: 1;
+    min_compatible_version: 1;
+}
+
+spriteset(things_sprite, "gfx/A million things.png"){
+    [0,0,16,16,0,0]
+}
+
+spriteset(verity_sprite, "gfx/Verity.png"){
+    [0,0,16,16,-8,-8]
+}
+spriteset(verity_factory_sprite, "gfx/Verity Factory.png"){
+    [0,0,64,64,-32,-32]
+}
+
+spritelayout verity_industry_tile_sprite_layout{
+    ground { sprite: GROUNDSPRITE_NORMAL; }
+    building{ sprite: verity_factory_sprite(0);}
+}
+
+item(FEAT_INDUSTRYTILES, verity_fact_tile, 0){
+        property {
+        substitute: 0x01;
+    }
+    graphics {
+        default: verity_industry_tile_sprite_layout;
+    }
+}
+
+tilelayout verity_fact_tile_layout{
+    0, 0: verity_fact_tile;
+}
+
+
+cargotable{
+    THIN, VERT, PASS
+}
+
+item(FEAT_ROADVEHS, Veritymobile, 100) {
+    property {
+        name:string(STR_VERITY_CAR_NAME);
+        climates_available:bitmask(CLIMATE_TEMPERATE, CLIMATE_ARCTIC, CLIMATE_TROPICAL);
+        introduction_date:date(2000,01,01);
+        model_life:VEHICLE_NEVER_EXPIRES;
+        vehicle_life:10;
+        reliability_decay: 0;
+        cargo_allow_refit: [THIN, VERT];
+        loading_speed: 1;
+        cost_factor: 255;
+        running_cost_factor: 0;
+        sprite_id: SPRITE_ID_NEW_ROADVEH;
+        speed: 3 km/h;
+        misc_flags: bitmask(ROADVEH_FLAG_2CC);
+        running_cost_base: RUNNING_COST_ROADVEH;
+        power: 2550 hp;
+        weight: 1 ton;
+        cargo_capacity: 1;
+        sound_effect: SOUND_DEPARTURE_OLD_RV_1;
+    }
+    graphics {
+        default: verity_sprite;
+    }
+
+}
+
+item(FEAT_CARGOS, Things, 20){
+    property {
+        number: 20;
+        type_name: string(STR_CARGO_THING_NAME_PLURAL);
+        unit_name: string(STR_CARGO_THING_NAME);
+        units_of_cargo: string(STR_CARGO_THING_UNITS);
+        items_of_cargo: string(STR_CARGO_THING_ITEM);
+        type_abbreviation: string(STR_CARGO_THING_ABBR);
+        sprite: NEW_CARGO_SPRITE;
+        weight: 15;
+        price_factor: 100;
+        is_freight: 1;
+        //cargo_classes: bitmask(CC_EXPRESS || CC_ARMOURED || CC_PIECE_GOODS || CC_OVERSIZED);
+        cargo_label:"THIN";
+        capacity_multiplier: 1;
+        town_production_effect: TOWNPRODUCTION_PASSENGERS;
+        town_production_multiplier: 0.1;
+    }
+    graphics{
+        default:things_sprite;
+    }
+
+}
+
+item(FEAT_CARGOS, Verity, 21){
+    property {
+        number: 21;
+        type_name: string(STR_CARGO_VERITY_NAME_PLURAL);
+        unit_name: string(STR_CARGO_VERITY_NAME);
+        units_of_cargo: string(STR_CARGO_VERITY_UNITS);
+        items_of_cargo: string(STR_CARGO_VERITY_ITEM);
+        type_abbreviation: string(STR_CARGO_VERITY_ABBR);
+        sprite: NEW_CARGO_SPRITE;
+        weight: 15;
+        price_factor: 1000000;
+        is_freight: 1;
+        //cargo_classes: bitmask(CC_EXPRESS || CC_ARMOURED || CC_PIECE_GOODS || CC_OVERSIZED);
+        cargo_label:"VERT";
+        capacity_multiplier: 1;
+    }
+    graphics{
+        default:verity_sprite;
+    }
+
+}
+
+item(FEAT_INDUSTRIES, Verity_facrory){
+    property{
+        substitute: INDUSTRYTYPE_TEMPERATE_FACTORY;
+        layouts: [verity_fact_tile_layout];
+        life_type: IND_LIFE_TYPE_PROCESSING;
+        cargo_types:[
+            accept_cargo("THIN", produce_cargo("VERT", 1)),
+            ];
+        min_cargo_distr:1;
+        prob_random: 2;
+        prob_map_gen: 2;
+        prob_in_game: 0;
+        map_colour: 255;
+        name: string(STR_VERITY_FACTORY_NAME);
+        prospect_chance:0;
+        remove_cost_multiplier: 255;
+    }
+}
+
+item(FEAT_HOUSES, houses) {
+    property {
+        substitute:       26;
+        override:         26;
+        accepted_cargos:  [[VERT, 1],[PASS, 1]]; 
+    }
+}

@@ -1,0 +1,24 @@
+##grflangid 0x01
+# This is the English language file
+
+# GRF name and description definitions
+STR_GRF_NAME        :Clooppy Mod
+STR_GRF_DESCRIPTION :Adds a million things
+
+#Cargo names
+STR_CARGO_THING_NAME_PLURAL:Things
+STR_CARGO_THING_NAME:Thing
+STR_CARGO_THING_UNITS:about {COMMA} million
+STR_CARGO_THING_ITEM:about {COMMA} million things
+STR_CARGO_THING_ABBR:TS
+STR_CARGO_VERITY_NAME_PLURAL:Veritys
+STR_CARGO_VERITY_NAME:Verity
+STR_CARGO_VERITY_UNITS:{COMMA} Verity
+STR_CARGO_VERITY_ITEM:{COMMA} Verity
+STR_CARGO_VERITY_ABBR:VR
+
+#Car names
+STR_VERITY_CAR_NAME:Vertitymobile
+
+#Industry names
+STR_VERITY_FACTORY_NAME:Verity Factory
