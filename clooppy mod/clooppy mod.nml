@@ -13,6 +13,9 @@ spriteset(things_sprite, "gfx/A million things.png"){
 spriteset(verity_sprite, "gfx/Verity.png"){
     [0,0,16,16,0,0]
 }
+spriteset(veritymobile_sprite, "gfx/Verity.png"){
+    [0,0,16,16,-8,-8]
+}
 spriteset(verity_factory_sprite, "gfx/Verity Factory.png"){
     [0,0,64,64,-32,-32]
 }
@@ -25,6 +28,7 @@ spritelayout verity_industry_tile_sprite_layout{
 item(FEAT_INDUSTRYTILES, verity_fact_tile, 0){
         property {
         substitute: 0x01;
+        special_flags: bitmask(INDTILE_FLAG_ACCEPT_ALL);
     }
     graphics {
         default: verity_industry_tile_sprite_layout;
@@ -62,7 +66,7 @@ item(FEAT_ROADVEHS, Veritymobile, 100) {
         sound_effect: SOUND_DEPARTURE_OLD_RV_1;
     }
     graphics {
-        default: verity_sprite;
+        default: veritymobile_sprite;
     }
 
 }
@@ -80,7 +84,6 @@ item(FEAT_CARGOS, Things, 20){
         weight: 15;
         price_factor: 100;
         is_freight: 1;
-        //cargo_classes: bitmask(CC_EXPRESS || CC_ARMOURED || CC_PIECE_GOODS || CC_OVERSIZED);
         cargo_label:"THIN";
         capacity_multiplier: 1;
         town_production_effect: TOWNPRODUCTION_PASSENGERS;
@@ -105,7 +108,6 @@ item(FEAT_CARGOS, Verity, 21){
         weight: 15;
         price_factor: 1000000;
         is_freight: 1;
-        //cargo_classes: bitmask(CC_EXPRESS || CC_ARMOURED || CC_PIECE_GOODS || CC_OVERSIZED);
         cargo_label:"VERT";
         capacity_multiplier: 1;
     }
@@ -123,7 +125,7 @@ item(FEAT_INDUSTRIES, Verity_facrory){
         cargo_types:[
             accept_cargo("THIN", produce_cargo("VERT", 1)),
             ];
-        min_cargo_distr:1;
+        min_cargo_distr:0;
         prob_random: 2;
         prob_map_gen: 2;
         prob_in_game: 0;
