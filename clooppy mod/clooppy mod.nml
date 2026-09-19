@@ -1,3 +1,5 @@
+//nmlc -c --grf "clooppy mod.grf" "clooppy mod.nml" <----this is just for me to easily do the command
+
 grf {
     grfid: "XX01";
     name: string(STR_GRF_NAME);
@@ -23,6 +25,10 @@ spriteset(skunx_house_sprite, "gfx/Piggybank.png"){
     [0,0,32,32,-16,-16]
 }
 
+spriteset(housing_proj_sprite, "gfx/Chinese housing project.png"){
+    [0,0,66,348,-33,-316]
+}
+
 spritelayout verity_industry_tile_sprite_layout{
     ground { sprite: GROUNDSPRITE_NORMAL; }
     building{ sprite: verity_factory_sprite(0);}
@@ -31,6 +37,10 @@ spritelayout verity_industry_tile_sprite_layout{
 spritelayout skunx_house_tile_sprite_layout{
     ground { sprite: GROUNDSPRITE_NORMAL; }
     building{ sprite: skunx_house_sprite(0);}
+}
+spritelayout housing_proj_tile_sprite_layout{
+    ground { sprite: GROUNDSPRITE_NORMAL; }
+    building{ sprite: housing_proj_sprite(0);}
 }
 
 item(FEAT_INDUSTRYTILES, verity_fact_tile, 0){
@@ -53,12 +63,26 @@ item(FEAT_INDUSTRYTILES, skunx_house_tile, 3){
     }
 }
 
+item(FEAT_INDUSTRYTILES, housing_project_tile, 10){
+        property {
+        substitute: 0x01;
+        special_flags: bitmask(INDTILE_FLAG_ACCEPT_ALL);
+    }
+    graphics {
+        default: housing_proj_tile_sprite_layout;
+    }
+}
+
 tilelayout verity_fact_tile_layout{
     0, 0: verity_fact_tile;
 }
 
 tilelayout skunx_house_tile_layout{
     0, 0: skunx_house_tile;
+}
+
+tilelayout housing_proj_tile_layout{
+    0, 0: housing_project_tile;
 }
 
 cargotable{
@@ -78,7 +102,7 @@ item(FEAT_ROADVEHS, Veritymobile, 100) {
         cost_factor: 255;
         running_cost_factor: 0;
         sprite_id: SPRITE_ID_NEW_ROADVEH;
-        speed: 3 km/h;
+        speed: 6 km/h;
         misc_flags: bitmask(ROADVEH_FLAG_2CC);
         running_cost_base: RUNNING_COST_ROADVEH;
         power: 2550 hp;
@@ -171,4 +195,23 @@ item(FEAT_INDUSTRIES, Skunx_House) {
             ];
         spec_flags: bitmask(IND_FLAG_ONLY_IN_TOWNS);
     }
+}
+
+item(FEAT_HOUSES, chinese_housing_project){
+    property{
+    substitute: 0;
+    name: string(SRT_HOUSING_PROJ_NAME);
+    population: 255;
+    mail_multiplier: 255;
+    local_authority_impact: 65525;
+    removal_cost_multiplier: 255;
+    probability: 5;
+    years_available: [1976, 3000];
+    minimum_lifetime: 1;
+    availability_mask: [bitmask(TOWNZONE_OUTSKIRT), ALL_CLIMATES];
+    }
+    graphics {
+        default: housing_proj_tile_sprite_layout; 
+    }
+
 }
